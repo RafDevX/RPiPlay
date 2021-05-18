@@ -27,6 +27,6 @@ add_subdirectory(renderers)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${RENDERER_FLAGS}" )
 
 add_executable( rpiplay rpiplay.cpp)
-target_link_libraries ( rpiplay renderers airplay )
+target_link_libraries ( rpiplay renderers airplay ${X11_LIBRARIES} )
 
 install(TARGETS rpiplay RUNTIME DESTINATION bin)
