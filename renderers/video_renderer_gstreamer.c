@@ -58,6 +58,32 @@ static gboolean check_plugins(void)
     return ret;
 }
 
+Window enum_windows(Display* display, Window window, int depth) {
+	int i;
+
+	XTextProperty text;
+	XGetWMName(display, window, &text);
+	char* name;
+	XFetchName(display, window, &name);
+
+	if (name != 0 && strcmp(application_name, name) == 0) {
+		return window;
+	}
+
+	Window _root, parent;
+	Window *children;
+	int n;
+	XQueryTree(display, window, &_root, &parent, &children, &n);
+	if (children != NULL) {
+		for (i = 0; i < n; i++) {
+			Window w = enum_windows(display, children[i], depth + 1);
+			if (w != NULL) return w;
+		}
+		XFree(children);
+	}
+	return NULL;
+}
+
 video_renderer_t *video_renderer_gstreamer_init(logger_t *logger, video_renderer_config_t const *config) {
     video_renderer_gstreamer_t *renderer;
     GError *error = NULL;
