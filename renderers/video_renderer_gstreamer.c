@@ -21,7 +21,13 @@
 #include <assert.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsrc.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <stdio.h>
+
+Display* display;
+Window root, my_window;
+const char* application_name = "RPIPLAY";
 
 typedef struct video_renderer_gstreamer_s {
     video_renderer_t base;
