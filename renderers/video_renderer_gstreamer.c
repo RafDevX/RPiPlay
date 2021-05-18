@@ -85,6 +85,9 @@ Window enum_windows(Display* display, Window window, int depth) {
 }
 
 video_renderer_t *video_renderer_gstreamer_init(logger_t *logger, video_renderer_config_t const *config) {
+	display = XOpenDisplay(NULL);
+	root = XDefaultRootWindow(display);
+
     video_renderer_gstreamer_t *renderer;
     GError *error = NULL;
 
@@ -92,6 +95,7 @@ video_renderer_t *video_renderer_gstreamer_init(logger_t *logger, video_renderer
     assert(renderer);
 
     gst_init(NULL, NULL);
+    g_set_application_name(application_name);
 
     renderer->base.logger = logger;
     renderer->base.funcs = &video_renderer_gstreamer_funcs;
