@@ -14,6 +14,10 @@ set (CMAKE_CXX_STANDARD 11)
 
 set (RENDERER_FLAGS "")
 
+find_package(X11 REQUIRED)
+link_libraries(${X11_LIBRARIES})
+include_directories(${X11_INCLUDE_DIR})
+
 add_subdirectory(lib/playfair)
 add_subdirectory(lib/llhttp)
 add_subdirectory(lib)
