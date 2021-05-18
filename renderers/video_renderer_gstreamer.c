@@ -176,6 +176,17 @@ static void video_renderer_gstreamer_render_buffer(video_renderer_t *renderer, r
     GST_BUFFER_DTS(buffer) = (GstClockTime)pts;
     gst_buffer_fill(buffer, 0, data, data_len);
     gst_app_src_push_buffer(GST_APP_SRC(r->appsrc), buffer);
+
+    if (my_window == NULL) {
+	    my_window = enum_windows(display, root, 0);
+	    if (my_window != NULL) {
+		    char* str = "RPiPlay";
+		    Atom _NET_WM_NAME = XInternAtom(display, "_NET_WM_NAME", 0);
+		    Atom UTF8_STRING = XInternAtom(display, "UTF8_STRING", 0);
+		    XChangeProperty(display, my_window, _NET_WM_NAME, UTF8_STRING, 8, 0, str, strlen(str));
+		    XSync(display, False);
+		}
+	}
 }
 
 void video_renderer_gstreamer_flush(video_renderer_t *renderer) {
